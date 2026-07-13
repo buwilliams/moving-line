@@ -93,7 +93,7 @@ function App() {
 
   const snapshot = useMemo(() => simulateWorkAt(assumptions, date), [assumptions, date]);
   const interregnum = useMemo(() => findInterregnumWindow(assumptions), [assumptions]);
-  const revenueChange = snapshot.agencyRevenueAnnual / assumptions.annualRevenue - 1;
+  const revenueChange = snapshot.incumbentValue / assumptions.annualRevenue - 1;
   const currentDay = dateToDay(date);
   const interregnumIsActive = interregnum !== null &&
     currentDay >= dateToDay(interregnum.start) &&
@@ -145,8 +145,8 @@ function App() {
       <main className="theater explanatory-theater">
         <section className="essay-heading">
           <div className="revenue-reading">
-            <span className="theater-kicker">Agency revenue</span>
-            <h1>{money.format(snapshot.agencyRevenueAnnual)}</h1>
+            <span className="theater-kicker">Incumbent revenue</span>
+            <h1>{money.format(snapshot.incumbentValue)}</h1>
             <p>{Math.abs(revenueChange) < 0.005 ? "At baseline" : `${Math.abs(revenueChange * 100).toFixed(0)}% ${revenueChange < 0 ? "below" : "above"} baseline`}</p>
           </div>
           <div className="insight-reading">
@@ -155,7 +155,7 @@ function App() {
           </div>
         </section>
 
-        <MovingLineScene snapshot={snapshot} baselineRevenue={assumptions.annualRevenue} />
+        <MovingLineScene snapshot={snapshot} assumptions={assumptions} />
 
         <TimelineControl date={date} interregnum={interregnum} snapshot={snapshot} onDateChange={setDate} />
 
@@ -178,7 +178,7 @@ function App() {
         <div className="drawer-head"><div><strong>Change the clocks</strong><small>Adjust rates, then press play.</small></div><button title="Close clock controls" onClick={() => setControlsOpen(false)}><X size={20} /></button></div>
         <div className="clock-controls">
           <label className="revenue-control">
-            <span><strong>Starting annual agency revenue</strong><output>{fullMoney.format(assumptions.annualRevenue)}</output></span>
+            <span><strong>Starting annual incumbent revenue</strong><output>{fullMoney.format(assumptions.annualRevenue)}</output></span>
             <input
               type="range"
               min="100000"
@@ -194,6 +194,22 @@ function App() {
           <AssumptionSlider label="Client absorption pace" value={assumptions.absorptionPace} left="Long change cycles" right="Rapid adoption" onChange={(value) => setAssumptions((current) => ({ ...current, absorptionPace: value }))} />
           <AssumptionSlider label="Demand response" value={assumptions.demandResponse} left="Limited elasticity" right="Boundless demand" onChange={(value) => setAssumptions((current) => ({ ...current, demandResponse: value }))} />
           <AssumptionSlider label="Client perception pace" value={assumptions.identityPace} left="Fixed expectations" right="Rapid repositioning" onChange={(value) => setAssumptions((current) => ({ ...current, identityPace: value }))} />
+          <details className="advanced-assumptions">
+            <summary>Advanced assumptions</summary>
+            <label className="core-control">
+              <span><strong>Constitutive core assumption</strong><output>{Math.round(assumptions.constitutiveCore * 100)}%</output></span>
+              <input
+                type="range"
+                min="0"
+                max="25"
+                step="1"
+                value={assumptions.constitutiveCore * 100}
+                onChange={(event) => setAssumptions((current) => ({ ...current, constitutiveCore: Number(event.target.value) / 100 }))}
+              />
+              <small><span>0%</span><span>25%</span></small>
+              <p>The essay treats the size of this persistent trust, liability, and accountability layer as an open empirical question.</p>
+            </label>
+          </details>
         </div>
       </aside>
     </div>

@@ -65,7 +65,7 @@ capable of delivering.
 The first viewport contains:
 
 - A header link to the source essay
-- Current annualized agency revenue and change from baseline
+- Current annualized incumbent revenue and change from baseline
 - One condition-driven emphasis and one causal sentence
 - One cinematic work field
 - A dated timeline with one current-moment dot
@@ -128,9 +128,15 @@ identities; it is not a third thesis line. The amber **Capability gap** between
 **AI Work** and the **AI can do** line widens early, peaks, and then contracts
 as new actors operationalize the capability.
 
+Hovering or focusing either line exposes its essay definition, the curve used
+by the model, and its live share and absolute work-index quantity. The identity
+detail explicitly explains that its percentage can move left when the current
+work denominator expands.
+
 The interregnum is temporal and economic: **the period in which the old revenue
 model is dead and the new demand has not yet materialized**. It is shown as an
-amber interval on the timeline, not mislabeled as a region of work.
+amber interval on the timeline, not mislabeled as a region of work. Its
+endpoints are labeled **Old model breaks** and **New demand overtakes legacy**.
 
 ## 6. The Four Clocks
 
@@ -163,8 +169,10 @@ live value rather than a scheduled reveal:
 - Client organizations through in-housing
 
 Their size and opacity grow with modeled capture and each shows its live annual
-value. Incumbent revenue is represented separately by a shrinking ribbon with
-its live annual value.
+value. Hover details explain the essay claim, the capture assumption, and the
+live value. The headline reports incumbent revenue only. The shrinking white
+ribbon reports legacy-revenue-model value, while protected-new-identity value
+remains separate from the incumbent.
 
 The model also calculates value that has no captor during the interregnum. This
 supports the Coasean-floor mechanism without presenting evaporation as revenue
@@ -192,12 +200,14 @@ These are changes of emphasis, not the start or end of the underlying clocks.
 
 The user can change:
 
-- Starting annual agency revenue from `$100,000` to `$100,000,000` in
+- Starting annual incumbent revenue from `$100,000` to `$100,000,000` in
   `$100,000` increments
 - AI capability pace
 - Client absorption pace
 - Demand response
 - Client perception pace
+- Constitutive core assumption from `0%` to `25%`, inside a collapsed advanced
+  section
 
 The four rate controls use logarithmic `1/32x` to `32x` ranges. Reset restores
 the baked rates, `$2.9M` revenue, and the opening date. Playback rates are Day,
@@ -207,8 +217,8 @@ ten-year argument plays in roughly two minutes.
 ## 10. Model Mapping
 
 The scenario begins with a work index of `100`, an existing frontier at `22%`
-of that field, AI Work at `8%`, a constitutive core of `5%`, New Work at `4%`,
-and a client-hiring line at `26%`.
+of that field, AI Work at `8%`, a default constitutive-core assumption of `5%`,
+New Work at `4%`, and a client-hiring line at `26%`.
 
 Clock progress uses continuous exponential curves. Every clock is already
 running at the opening date; their different speeds create the lag. Positions
@@ -223,6 +233,7 @@ added work = capability-driven creation + continuing problem growth
 retired work = a share of handled legacy work that becomes infrastructure or is replaced
 current work index = opening work - retired work + added work
 displayed share = active work quantity / current work index
+constitutive core quantity = selected core share * current work index
 ```
 
 Capability opens possible new work immediately:
@@ -246,10 +257,11 @@ remaining legacy revenue. The `50%` viability threshold is an explicit
 explanatory assumption, not an empirical constant. If no crossover occurs
 inside the horizon, the interval continues beyond the model.
 
-Incumbent revenue declines with frontier advance. Constitutive relationships
-provide a limited residual, and identity progress permits limited participation
-in new demand. Entrants benefit from the gap between capability and identity;
-clients benefit as absorbed capability moves work inside the firm.
+Legacy revenue declines with frontier advance. Constitutive relationships
+provide the incumbent a limited residual, and identity progress permits limited
+participation in new demand. Protected-new-identity value is not included in
+incumbent revenue. Entrants benefit from the gap between capability and
+identity; clients benefit as absorbed capability moves work inside the firm.
 
 The formulas are deterministic explanatory relationships, not empirically
 estimated forecasts.
@@ -260,10 +272,11 @@ estimated forecasts.
 - Red AI capability, amber capability gap, blue client perception, green New Work
 - One continuous work field rather than a dashboard or named service cards
 - Two plain-language moving-line labels: **AI can do** and **Clients hire us for**
-- A shrinking revenue ribbon rather than a revenue chart
+- A shrinking legacy-revenue-model ribbon rather than a revenue chart
 - Capture destinations visible in proportion to their live modeled value
 - A green New Work overlay that expands within the rebased current `100%`
-- Hover and keyboard-focus details for definitions and live quantities
+- Hover and keyboard-focus details that distinguish **Essay claim**, **Model
+  assumption**, and **Live result**
 - Desktop presentation fits within the first viewport
 - Mobile presentation preserves the complete field and timeline without
   page-level overflow
@@ -278,10 +291,10 @@ estimated forecasts.
 5. The interregnum is defined as the period in which the old revenue model is
    dead and the new demand has not yet materialized; it is not presented as a
    work category.
-6. The work field preserves a visible constitutive core without claiming its
-   economic size is permanent.
+6. The work field preserves a visible constitutive core, and its size is an
+   explicit advanced assumption rather than a hidden claim.
 7. Capture shifts from the incumbent toward clients and entrants.
-8. A protected new identity remains distinct from the incumbent identity.
+8. Protected-new-identity value remains distinct from incumbent revenue.
 9. New Work is visible at the opening date, expands the current work index, and
    remains part of the visible `100%`.
 10. No mechanism receives an artificial start date; changes in emphasis are
@@ -290,7 +303,7 @@ estimated forecasts.
 12. Reset restores the baked model and opening date.
 13. Engine tests, the production build, and desktop/mobile browser checks pass
     without console errors or page-level horizontal overflow.
-14. Hover and keyboard focus expose definitions, shares, and work-index
-    quantities without permanently increasing visual load.
+14. Hover and keyboard focus expose essay claims, model assumptions, and live
+    results without permanently increasing visual load.
 15. The header links to the source essay at
     `https://buddy-williams.com/writings/moving-line`.

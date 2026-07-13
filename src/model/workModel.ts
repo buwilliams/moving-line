@@ -9,6 +9,7 @@ export interface WorkAssumptions {
   absorptionPace: number;
   demandResponse: number;
   identityPace: number;
+  constitutiveCore: number;
 }
 
 export const DEFAULT_WORK_ASSUMPTIONS: WorkAssumptions = {
@@ -17,6 +18,7 @@ export const DEFAULT_WORK_ASSUMPTIONS: WorkAssumptions = {
   absorptionPace: 0.5,
   demandResponse: 2,
   identityPace: 0.125,
+  constitutiveCore: 0.05,
 };
 
 export interface WorkSnapshot {
@@ -39,7 +41,6 @@ export interface WorkSnapshot {
     handledPosition: number;
     identityBoundary: number;
   };
-  agencyRevenueAnnual: number;
   legacyRevenueAnnual: number;
   replacementDemandAnnual: number;
   incumbentValue: number;
@@ -53,9 +54,7 @@ const INITIAL_FRONTIER = 0.22;
 const INITIAL_ABSORPTION = 0.08;
 const INITIAL_IDENTITY_BOUNDARY = 0.26;
 const INITIAL_NEW_WORK = 0.04;
-const CONSTITUTIVE_CORE = 0.05;
 const OPENING_WORK = 1;
-const CONTINGENT_LIMIT = OPENING_WORK - CONSTITUTIVE_CORE;
 
 const exponentialProgress = (progress: number, pace: number, intensity: number) =>
   clamp01(1 - Math.exp(-progress * pace * intensity));
@@ -72,9 +71,11 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
   const distributionProgress = Math.min(absorptionProgress, absorptionProgress * demandActivation);
   const marketEntryProgress = exponentialProgress(horizonProgress, assumptions.demandResponse, 3.5);
   const identityProgress = exponentialProgress(horizonProgress, assumptions.identityPace, 0.9);
+  const constitutiveCoreShare = Math.min(0.25, Math.max(0, assumptions.constitutiveCore));
+  const contingentLimit = OPENING_WORK - constitutiveCoreShare;
 
   const legacyFrontierPosition =
-    INITIAL_FRONTIER + (CONTINGENT_LIMIT - INITIAL_FRONTIER) * capabilityProgress;
+    INITIAL_FRONTIER + (contingentLimit - INITIAL_FRONTIER) * capabilityProgress;
   const clientAbsorptionPosition =
     INITIAL_ABSORPTION + (legacyFrontierPosition - INITIAL_ABSORPTION) * absorptionProgress;
   const marketHandlingProgress = clamp01(
@@ -83,16 +84,16 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
   const legacyHandledPosition =
     INITIAL_ABSORPTION + (legacyFrontierPosition - INITIAL_ABSORPTION) * marketHandlingProgress;
   const legacyIdentityBoundary =
-    INITIAL_IDENTITY_BOUNDARY + (CONTINGENT_LIMIT - INITIAL_IDENTITY_BOUNDARY) * identityProgress;
+    INITIAL_IDENTITY_BOUNDARY + (contingentLimit - INITIAL_IDENTITY_BOUNDARY) * identityProgress;
 
   const retiredWork = Math.min(
-    CONTINGENT_LIMIT,
+    contingentLimit,
     Math.max(0, legacyHandledPosition - INITIAL_ABSORPTION) * 0.25,
   );
   const addedWork = capabilityProgress * 0.35 + horizonProgress * 0.3;
   const newWorkAbsolute = INITIAL_NEW_WORK + addedWork;
   const totalWorkIndex = OPENING_WORK - retiredWork + addedWork;
-  const constitutiveCoreAbsolute = totalWorkIndex * CONSTITUTIVE_CORE;
+  const constitutiveCoreAbsolute = totalWorkIndex * constitutiveCoreShare;
 
   const addedCapability = addedWork * capabilityProgress * 0.35;
   const capableWorkAbsolute = Math.min(
@@ -136,7 +137,7 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
   const legacyRevenueAnnual = baseline * legacyRetention;
   const replacementDemandAnnual = baseline * realizedNewWork;
   const constitutiveCapture =
-    CONSTITUTIVE_CORE * capabilityProgress * (0.35 + 0.65 * identityProgress);
+    constitutiveCoreShare * capabilityProgress * (0.35 + 0.65 * identityProgress);
   const incumbentExpansion = realizedNewWork * identityProgress * 0.12;
   const incumbentValue = baseline * Math.max(0, legacyRetention + constitutiveCapture + incumbentExpansion);
   const newIdentityValue = baseline * (
@@ -172,7 +173,6 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
       handledPosition,
       identityBoundary,
     },
-    agencyRevenueAnnual: incumbentValue + newIdentityValue,
     legacyRevenueAnnual,
     replacementDemandAnnual,
     incumbentValue,

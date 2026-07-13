@@ -58,16 +58,22 @@ export function TimelineControl({ date, interregnum, snapshot, onDateChange }: T
         onFocus={() => setShowInterregnumDetail(true)}
         onBlur={() => setShowInterregnumDetail(false)}
       >
-        <span>Interregnum</span>
+        <i className="timeline-control__endpoint timeline-control__endpoint--start"><span>Old model breaks</span></i>
+        <span className="timeline-control__interregnum-label">Interregnum</span>
+        <i className="timeline-control__endpoint timeline-control__endpoint--end"><span>{interregnum.end ? "New demand overtakes legacy" : "Continues beyond model"}</span></i>
       </div>}
       {showInterregnumDetail && interregnum && <div id="interregnum-detail" className="timeline-detail-popover" role="tooltip">
         <strong>Interregnum</strong>
+        <small className="timeline-detail-popover__label">Essay definition</small>
         <p>The period in which the old revenue model is dead and new demand has not yet materialized.</p>
+        <small className="timeline-detail-popover__label">Model assumption</small>
+        <p>Legacy revenue below 50% marks failure of the old model. The interval ends when annual replacement demand overtakes remaining legacy revenue.</p>
+        <small className="timeline-detail-popover__label">Live result</small>
         <dl>
           <div><dt>Legacy revenue now</dt><dd>{money.format(snapshot.legacyRevenueAnnual)}</dd></div>
           <div><dt>New demand now</dt><dd>{money.format(snapshot.replacementDemandAnnual)}</dd></div>
         </dl>
-        <small>Modeled: legacy below 50% until demand crossover | {monthYear.format(new Date(`${interregnum.start}T00:00:00Z`))} - {interregnum.end ? monthYear.format(new Date(`${interregnum.end}T00:00:00Z`)) : "Beyond model"}</small>
+        <small className="timeline-detail-popover__range">{monthYear.format(new Date(`${interregnum.start}T00:00:00Z`))} - {interregnum.end ? monthYear.format(new Date(`${interregnum.end}T00:00:00Z`)) : "Beyond model"}</small>
       </div>}
       <label className="timeline-control__range">
         <span className="sr-only">Simulation date</span>

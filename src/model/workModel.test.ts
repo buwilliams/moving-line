@@ -11,7 +11,7 @@ describe("work landscape model", () => {
   it("opens with client demand narrowly ahead of AI capability", () => {
     const snapshot = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_START);
     expect(snapshot.work.identityBoundary).toBeGreaterThan(snapshot.work.frontierPosition);
-    expect(snapshot.agencyRevenueAnnual).toBeCloseTo(DEFAULT_WORK_ASSUMPTIONS.annualRevenue, 2);
+    expect(snapshot.incumbentValue).toBeCloseTo(DEFAULT_WORK_ASSUMPTIONS.annualRevenue, 2);
   });
 
   it("makes capability outrun absorption and identity", () => {
@@ -83,10 +83,21 @@ describe("work landscape model", () => {
     expect(ending.work.retiredWork).toBeGreaterThan(0.15);
   });
 
+  it("treats the constitutive core as an explicit scenario assumption", () => {
+    const largerCore = simulateWorkAt(
+      { ...DEFAULT_WORK_ASSUMPTIONS, constitutiveCore: 0.2 },
+      SIMULATION_START,
+    );
+    expect(largerCore.work.constitutiveCore).toBeCloseTo(0.2, 8);
+    expect(largerCore.work.humanWork).toBeLessThan(
+      simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_START).work.humanWork,
+    );
+  });
+
   it("moves value away from the incumbent over the default path", () => {
     const opening = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_START);
     const ending = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_END);
-    expect(ending.agencyRevenueAnnual).toBeLessThan(opening.agencyRevenueAnnual * 0.2);
+    expect(ending.incumbentValue).toBeLessThan(opening.incumbentValue * 0.2);
     expect(ending.entrantValue).toBeGreaterThan(ending.newIdentityValue);
     expect(ending.clientValue).toBeGreaterThan(ending.incumbentValue);
   });
@@ -97,7 +108,8 @@ describe("work landscape model", () => {
       { ...DEFAULT_WORK_ASSUMPTIONS, annualRevenue: DEFAULT_WORK_ASSUMPTIONS.annualRevenue * 2 },
       SIMULATION_END,
     );
-    expect(doubled.agencyRevenueAnnual).toBeCloseTo(base.agencyRevenueAnnual * 2, 4);
+    expect(doubled.incumbentValue).toBeCloseTo(base.incumbentValue * 2, 4);
+    expect(doubled.newIdentityValue).toBeCloseTo(base.newIdentityValue * 2, 4);
     expect(doubled.clientValue).toBeCloseTo(base.clientValue * 2, 4);
   });
 });
