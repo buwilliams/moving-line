@@ -35,6 +35,16 @@ npm test
 npm run build
 ```
 
+## Deployment
+
+Production: [moving-line.fly.dev](https://moving-line.fly.dev/)
+
+The app is packaged as a static nginx container and deployed to Fly.io:
+
+```bash
+flyctl deploy
+```
+
 The product and model contract is documented in
 [`simulation-spec.md`](./simulation-spec.md).
 

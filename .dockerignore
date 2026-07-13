@@ -1,0 +1,6 @@
+.git
+.agents
+.codex
+dist
+node_modules
+*.tsbuildinfo
