@@ -18,19 +18,21 @@ describe("work landscape model", () => {
     expect(snapshot.capabilityProgress).toBeGreaterThan(snapshot.absorptionProgress);
     expect(snapshot.absorptionProgress).toBeGreaterThan(snapshot.identityProgress);
     expect(snapshot.work.frontierPosition).toBeGreaterThan(snapshot.work.identityBoundary);
-    expect(snapshot.work.interregnum).toBeGreaterThan(0.1);
+    expect(snapshot.work.capabilityGap).toBeGreaterThan(0.1);
     expect(snapshot.distributionProgress).toBeLessThanOrEqual(snapshot.absorptionProgress);
     expect(
       snapshot.work.aiWork +
-      snapshot.work.interregnum +
+      snapshot.work.capabilityGap +
       snapshot.work.humanWork +
       snapshot.work.constitutiveCore,
     ).toBeCloseTo(1, 8);
   });
 
-  it("moves the capability line across roughly 95% of work within five years", () => {
+  it("expands absolute capability without reaching 100% of the growing field", () => {
     const fiveYears = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, "2031-07-01");
-    expect(fiveYears.work.frontierPosition).toBeGreaterThan(0.945);
+    expect(fiveYears.capabilityProgress).toBeGreaterThan(0.99);
+    expect(fiveYears.work.totalWorkIndex).toBeGreaterThan(1.25);
+    expect(fiveYears.work.frontierPosition).toBeLessThan(0.8);
     expect(fiveYears.work.handledPosition).toBeLessThan(fiveYears.work.frontierPosition);
     expect(fiveYears.work.identityBoundary).toBeLessThan(fiveYears.work.frontierPosition);
   });
@@ -45,12 +47,12 @@ describe("work landscape model", () => {
     expect(firstMonth.identityProgress).toBeGreaterThan(opening.identityProgress);
   });
 
-  it("lets market entry close the interregnum after its early peak", () => {
+  it("lets market entry close the capability gap after its early peak", () => {
     const opening = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_START);
     const firstYear = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, "2027-07-01");
     const ending = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_END);
-    expect(firstYear.work.interregnum).toBeGreaterThan(opening.work.interregnum);
-    expect(ending.work.interregnum).toBeLessThan(firstYear.work.interregnum);
+    expect(firstYear.work.capabilityGap).toBeGreaterThan(opening.work.capabilityGap);
+    expect(ending.work.capabilityGap).toBeLessThan(firstYear.work.capabilityGap);
     expect(firstYear.marketEntryProgress).toBeGreaterThan(firstYear.absorptionProgress);
   });
 
@@ -61,6 +63,8 @@ describe("work landscape model", () => {
     expect(opening.work.newWork).toBeCloseTo(0.04, 8);
     expect(firstYear.work.newWork).toBeGreaterThan(opening.work.newWork);
     expect(ending.work.newWork).toBeGreaterThan(0.4);
+    expect(ending.work.totalWorkIndex).toBeGreaterThan(opening.work.totalWorkIndex);
+    expect(ending.work.retiredWork).toBeGreaterThan(0.15);
   });
 
   it("moves value away from the incumbent over the default path", () => {

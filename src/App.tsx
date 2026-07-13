@@ -104,7 +104,7 @@ function App() {
     },
     {
       title: "The interregnum opens",
-      statement: "AI can do the work, but organizations have not absorbed it into normal operations.",
+      statement: "The old revenue model is dead before new demand can support it.",
     },
     {
       title: "The low end leaves the market",

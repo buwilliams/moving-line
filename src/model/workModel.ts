@@ -29,10 +29,12 @@ export interface WorkSnapshot {
   identityProgress: number;
   work: {
     aiWork: number;
-    interregnum: number;
+    capabilityGap: number;
     humanWork: number;
     constitutiveCore: number;
     newWork: number;
+    retiredWork: number;
+    totalWorkIndex: number;
     frontierPosition: number;
     handledPosition: number;
     identityBoundary: number;
@@ -50,7 +52,8 @@ const INITIAL_ABSORPTION = 0.08;
 const INITIAL_IDENTITY_BOUNDARY = 0.26;
 const INITIAL_NEW_WORK = 0.04;
 const CONSTITUTIVE_CORE = 0.05;
-const CONTINGENT_LIMIT = 1 - CONSTITUTIVE_CORE;
+const OPENING_WORK = 1;
+const CONTINGENT_LIMIT = OPENING_WORK - CONSTITUTIVE_CORE;
 
 const exponentialProgress = (progress: number, pace: number, intensity: number) =>
   clamp01(1 - Math.exp(-progress * pace * intensity));
@@ -68,28 +71,63 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
   const marketEntryProgress = exponentialProgress(horizonProgress, assumptions.demandResponse, 3.5);
   const identityProgress = exponentialProgress(horizonProgress, assumptions.identityPace, 0.9);
 
-  const frontierPosition =
+  const legacyFrontierPosition =
     INITIAL_FRONTIER + (CONTINGENT_LIMIT - INITIAL_FRONTIER) * capabilityProgress;
   const clientAbsorptionPosition =
-    INITIAL_ABSORPTION + (frontierPosition - INITIAL_ABSORPTION) * absorptionProgress;
+    INITIAL_ABSORPTION + (legacyFrontierPosition - INITIAL_ABSORPTION) * absorptionProgress;
   const marketHandlingProgress = clamp01(
     1 - (1 - absorptionProgress) * (1 - marketEntryProgress * 0.8),
   );
-  const handledPosition =
-    INITIAL_ABSORPTION + (frontierPosition - INITIAL_ABSORPTION) * marketHandlingProgress;
-  const identityBoundary =
+  const legacyHandledPosition =
+    INITIAL_ABSORPTION + (legacyFrontierPosition - INITIAL_ABSORPTION) * marketHandlingProgress;
+  const legacyIdentityBoundary =
     INITIAL_IDENTITY_BOUNDARY + (CONTINGENT_LIMIT - INITIAL_IDENTITY_BOUNDARY) * identityProgress;
 
-  const aiWork = handledPosition;
-  const interregnum = Math.max(0, frontierPosition - handledPosition);
-  const humanWork = Math.max(0, CONTINGENT_LIMIT - frontierPosition);
+  const retiredWork = Math.min(
+    CONTINGENT_LIMIT,
+    Math.max(0, legacyHandledPosition - INITIAL_ABSORPTION) * 0.25,
+  );
+  const addedWork = capabilityProgress * 0.35 + horizonProgress * 0.3;
+  const newWorkAbsolute = INITIAL_NEW_WORK + addedWork;
+  const totalWorkIndex = OPENING_WORK - retiredWork + addedWork;
+  const constitutiveCoreAbsolute = totalWorkIndex * CONSTITUTIVE_CORE;
+
+  const addedCapability = addedWork * capabilityProgress * 0.35;
+  const capableWorkAbsolute = Math.min(
+    totalWorkIndex - constitutiveCoreAbsolute,
+    Math.max(0, legacyFrontierPosition - retiredWork) + addedCapability,
+  );
+  const handledAddedWork = addedCapability * marketHandlingProgress;
+  const aiWorkAbsolute = Math.min(
+    capableWorkAbsolute,
+    Math.max(0, legacyHandledPosition - retiredWork) + handledAddedWork,
+  );
+  const capabilityGapAbsolute = Math.max(0, capableWorkAbsolute - aiWorkAbsolute);
+  const humanWorkAbsolute = Math.max(
+    0,
+    totalWorkIndex - capableWorkAbsolute - constitutiveCoreAbsolute,
+  );
+
+  const aiWork = aiWorkAbsolute / totalWorkIndex;
+  const capabilityGap = capabilityGapAbsolute / totalWorkIndex;
+  const humanWork = humanWorkAbsolute / totalWorkIndex;
+  const constitutiveCore = constitutiveCoreAbsolute / totalWorkIndex;
+  const newWork = newWorkAbsolute / totalWorkIndex;
+  const frontierPosition = capableWorkAbsolute / totalWorkIndex;
+  const handledPosition = aiWork;
+
   const clientAbsorbedGain = Math.max(0, clientAbsorptionPosition - INITIAL_ABSORPTION);
-  const newWork = INITIAL_NEW_WORK + capabilityProgress * 0.5;
 
   // Capability opens possible work immediately. Clients realize it through
   // absorption; entrants and new identities can realize it at founding speed.
   const realizationProgress = clamp01(distributionProgress + marketEntryProgress * 0.35);
-  const realizedNewWork = newWork * (0.08 + 0.92 * realizationProgress);
+  const realizedNewWork = newWorkAbsolute * (0.08 + 0.92 * realizationProgress);
+
+  const identityWorkAbsolute = Math.max(
+    constitutiveCoreAbsolute,
+    legacyIdentityBoundary - retiredWork + realizedNewWork * identityProgress * 0.2,
+  );
+  const identityBoundary = Math.min(1, identityWorkAbsolute / totalWorkIndex);
 
   const baseline = assumptions.annualRevenue;
   const legacyRetention = 1 - 0.95 * capabilityProgress;
@@ -120,10 +158,12 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
     identityProgress,
     work: {
       aiWork,
-      interregnum,
+      capabilityGap,
       humanWork,
-      constitutiveCore: CONSTITUTIVE_CORE,
+      constitutiveCore,
       newWork,
+      retiredWork,
+      totalWorkIndex,
       frontierPosition,
       handledPosition,
       identityBoundary,

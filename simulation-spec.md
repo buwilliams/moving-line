@@ -42,9 +42,16 @@ other named discipline. Those labels expire as models improve.
 
 ### Capability is not adoption
 
-Work an AI system can perform is distinct from work an organization has
-operationalized. Preserving this distinction is necessary to show the
-interregnum.
+Work an AI system can perform is distinct from work the market has converted
+into AI Work. Preserving this distinction reveals a capability gap. That gap
+can contribute to the interregnum, but it is not the interregnum itself.
+
+### The denominator moves
+
+The visible field always represents `100%` of currently viable work. New Work
+expands that total. Work that becomes infrastructure, is made economically
+irrelevant, or is replaced by a new technological system retires from it. AI
+therefore advances through a moving field rather than completing a fixed list.
 
 ### Identity governs permission
 
@@ -69,15 +76,16 @@ or clock progress meters.
 
 ## 4. Work Landscape
 
-The original work field is a continuous conceptual gradient. Its left edge is
+The current work field is a continuous conceptual gradient. Its left edge is
 more specifiable, bounded, and verifiable. Its right edge is more contextual,
-relational, and constitutive.
+relational, and constitutive. The full width is always the current `100%`, even
+as the absolute amount and composition of viable work change.
 
 At any date the field is divided into:
 
 1. **AI Work**: work handled with AI anywhere in the market, whether by client
    organizations, AI-native entrants, or protected new identities.
-2. **The interregnum**: technically reachable work that the market has not yet
+2. **Capability gap**: technically reachable work that the market has not yet
    converted into AI Work because of workflows, verification, trust, politics,
    deployment, accountability, or distribution.
 3. **Human-held contingent work**: work the frontier has not reached yet, but
@@ -85,14 +93,22 @@ At any date the field is divided into:
 4. **Constitutive core**: trust, liability, accountability, and institutional
    legitimacy. The obligations persist even if their associated labor or
    revenue changes.
-5. **New work**: initiatives and problems opened by new capability. It expands
-   beyond the marked original boundary immediately, while its economic
-   realization still waits on absorption and distribution. It is not a
-   permanent safe harbor.
+5. **New Work**: initiatives and problems opened by new capability, including
+   work already visible at the opening date. It expands the total field while
+   its economic realization still waits on absorption and distribution. It is
+   not a permanent safe harbor.
 
-The field itself carries these distinctions. Each region names itself and shows
-its live share of the original work field. No secondary work-state cards repeat
-the same information.
+The first four regions partition current viable work. New Work is a green
+overlay showing how much of that current field did not exist at the opening
+date. Each area names itself and shows its live share of the current field.
+Hovering or focusing an area reveals its definition, current share, and
+absolute quantity in work-index points.
+
+The field also reports turnover. The opening field has a work index of `100`.
+New Work adds index points; retired work removes index points. Retirement covers
+work that became infrastructure or ceased to be viable because a replacement
+technology changed the problem, as fission generation can replace fossil-fuel
+generation rather than merely automate it.
 
 ## 5. The Two Lines
 
@@ -100,15 +116,19 @@ Two prominent vertical lines move across the work field:
 
 | Boundary | Meaning | Default behavior |
 | --- | --- | --- |
-| **AI can do** | Work current AI can technically perform | Reaches roughly 95% of the modeled field within five years |
+| **AI can do** | Work current AI can technically perform | Compresses roughly 95% of the opening contingent work within five years, but remains below 100% of the expanding current field |
 | **Clients hire us for** | Work buyers believe the incumbent agency is for | Moves slowest |
 
 The opening position places what clients hire the agency for narrowly ahead of
 AI capability. The capability line passes it early. The red **AI Work** fill
 combines slow client absorption with faster market entry by entrants and new
-identities; it is not a third thesis line. The amber region between **AI Work**
-and the **AI can do** line is labeled **The interregnum**. It widens early,
-peaks, and then contracts as new actors operationalize the capability.
+identities; it is not a third thesis line. The amber **Capability gap** between
+**AI Work** and the **AI can do** line widens early, peaks, and then contracts
+as new actors operationalize the capability.
+
+The interregnum is temporal and economic: **the period in which the old revenue
+model is dead and the new demand has not yet materialized**. It is expressed by
+the chapter narrative and revenue movement, not mislabeled as a region of work.
 
 ## 6. The Four Clocks
 
@@ -157,13 +177,14 @@ The path is divided into six chapters:
 1. **Two lines begin the race**: AI capability begins near what clients hire
    the agency to do.
 2. **Price moves before organizations**: capability outruns absorption.
-3. **The interregnum opens**: AI-capable work waits on organizational change.
+3. **The interregnum opens**: the old revenue model is dead before new demand
+   can support it.
 4. **The low end leaves the market**: clients absorb work and outside revenue
    contracts.
 5. **Identity decides who follows**: the incumbent cannot automatically claim
    frontier-distant work.
-6. **The problem frontier expands**: the new-work frontier, visible from the
-   opening moment, becomes the focus as it grows beyond the original field.
+6. **The problem frontier expands**: New Work, visible from the opening moment,
+   becomes the focus as it expands and changes the current field.
 
 Each chapter shows one causal claim. The animated field is the evidence.
 
@@ -185,8 +206,8 @@ ten-year argument plays in roughly two minutes.
 
 ## 10. Model Mapping
 
-The scenario begins with an existing frontier at `22%` of the original work
-field, initial organizational absorption at `8%`, a constitutive core of `5%`,
+The scenario begins with a work index of `100`, an existing frontier at `22%`
+of that field, AI Work at `8%`, a constitutive core of `5%`, New Work at `4%`,
 and a client-hiring line at `26%`.
 
 Clock progress uses continuous exponential curves. Every clock is already
@@ -194,24 +215,29 @@ running at the opening date; their different speeds create the lag. Positions
 are derived as:
 
 ```text
-frontier position = initial frontier + capability progress * remaining contingent work
-client absorption = initial AI Work + absorption progress * reachable work
+legacy frontier = initial frontier + capability progress * remaining opening contingent work
+client absorption = initial AI Work + absorption progress * reachable legacy work
 market entry = demand-driven founding progress
-AI Work position = initial AI Work + combined client absorption and market entry * reachable work
-client-hiring line = initial client perception + identity progress * remaining work
+legacy AI Work = initial AI Work + combined client absorption and market entry * reachable legacy work
+added work = capability-driven creation + continuing problem growth
+retired work = a share of handled legacy work that becomes infrastructure or is replaced
+current work index = opening work - retired work + added work
+displayed share = active work quantity / current work index
 ```
 
 Capability opens possible new work immediately:
 
 ```text
-possible new work = existing new work + capability progress * generative range
-realized new work = possible new work * client distribution and market-entry realization
+New Work = existing New Work + added work
+realized New Work = New Work * client distribution and market-entry realization
 ```
 
-The opening state includes `4%` new work to represent initiatives, products,
-and roles already visible on the ground. The possible-work frontier advances
-with capability, while its economic realization comes through slower client
-absorption plus faster entry by organizations founded around the capability.
+The opening state includes `4` New Work index points to represent initiatives,
+products, and roles already visible on the ground. New Work is included inside
+the current `100%` overlay. Its absolute quantity can grow even when its share
+changes, and the total work index can grow despite simultaneous retirement.
+Its economic realization comes through slower client absorption plus faster
+entry by organizations founded around the capability.
 
 Incumbent revenue declines with frontier advance. Constitutive relationships
 provide a limited residual, and identity progress permits limited participation
@@ -224,13 +250,13 @@ estimated forecasts.
 ## 11. Visual Direction
 
 - Neutral-black presentation canvas
-- Red AI capability, amber interregnum, blue client perception, green new work
+- Red AI capability, amber capability gap, blue client perception, green New Work
 - One continuous work field rather than a dashboard or named service cards
 - Two plain-language moving-line labels: **AI can do** and **Clients hire us for**
 - A shrinking revenue ribbon rather than a revenue chart
 - Capture destinations revealed only during the relevant chapter
-- A green problem frontier that physically expands beyond the marked original
-  work boundary
+- A green New Work overlay that expands within the rebased current `100%`
+- Hover and keyboard-focus details for definitions and live quantities
 - Desktop presentation fits within the first viewport
 - Mobile presentation preserves the complete field and timeline without
   page-level overflow
@@ -239,20 +265,24 @@ estimated forecasts.
 
 1. A first-time user can press Play without configuring anything.
 2. No named offer or discipline is modeled as a permanent work category.
-3. AI-capable work is visibly divided into **AI Work** and **The interregnum**.
+3. AI-capable work is visibly divided into **AI Work** and the **Capability gap**.
 4. The **AI can do** line outruns both operational usage and **Clients hire us
    for** by default.
-5. Agency revenue falls during the interregnum.
+5. The interregnum is defined as the period in which the old revenue model is
+   dead and the new demand has not yet materialized; it is not presented as a
+   work category.
 6. The work field preserves a visible constitutive core without claiming its
    economic size is permanent.
 7. Capture shifts from the incumbent toward clients and entrants.
 8. A protected new identity remains distinct from the incumbent identity.
-9. New Work is visible at the opening date, expands beyond the original
-   boundary, and stays inside the drawing.
+9. New Work is visible at the opening date, expands the current work index, and
+   remains part of the visible `100%`.
 10. The six chapter statements remain consistent with live evidence.
 11. Revenue and clock controls produce materially different paths.
 12. Reset restores the baked model and opening date.
 13. Engine tests, the production build, and desktop/mobile browser checks pass
     without console errors or page-level horizontal overflow.
-14. The header links to the source essay at
+14. Hover and keyboard focus expose definitions, shares, and work-index
+    quantities without permanently increasing visual load.
+15. The header links to the source essay at
     `https://buddy-williams.com/writings/moving-line`.

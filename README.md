@@ -9,15 +9,19 @@ The primary view follows two lines through a continuous field of work:
 - **Clients hire us for** moves at the speed of client perception and firm
   identity.
 
-The space between technical capability and operational use is the
-**interregnum**. During that lag, prices compress before organizations can
-absorb the new capability, incumbent revenue falls, value moves to clients and
-new entrants, and capability opens a growing frontier of new problems.
+The amber space between technical capability and AI Work is the **capability
+gap**. The **interregnum** is instead the period in which the old revenue model
+is dead and new demand has not yet materialized. During that period, incumbent
+revenue falls while value moves to clients, entrants, and new identities.
 
 The application opens with a complete ten-year scenario. Users can play or
 scrub through time, change the four clock rates and starting revenue, and reset
 to the baked defaults. The model uses a continuous work landscape rather than
 assigning permanent AI or human status to named service categories.
+New Work, including initiatives already visible at the opening date, expands
+and rebases the current `100%`; work that becomes infrastructure or is replaced
+retires from the viable-work field. Hover or focus any area to see its
+definition and live quantity.
 
 The app links directly to the source essay:
 [The Moving Line](https://buddy-williams.com/writings/moving-line).
@@ -55,5 +59,6 @@ The product and model contract is documented in
 
 This is a deterministic explanatory model, not an empirically estimated
 forecast. Its defaults encode the essay's qualitative claims: AI capability
-approaches 95% of the modeled work field within five years, organizational
-absorption takes years, and client perception changes slowest.
+compresses roughly 95% of the opening contingent work within five years, the
+problem frontier keeps expanding, organizational absorption takes years, and
+client perception changes slowest.
