@@ -4,7 +4,6 @@ import type { WorkSnapshot } from "../model/workModel";
 interface MovingLineSceneProps {
   snapshot: WorkSnapshot;
   baselineRevenue: number;
-  phaseIndex: number;
 }
 
 const money = new Intl.NumberFormat("en-US", {
@@ -17,7 +16,7 @@ const money = new Intl.NumberFormat("en-US", {
 const percent = (value: number) => `${Math.round(value * 100)}%`;
 type DetailKey = "ai" | "gap" | "human" | "core" | "new" | "turnover";
 
-export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: MovingLineSceneProps) {
+export function MovingLineScene({ snapshot, baselineRevenue }: MovingLineSceneProps) {
   const [activeDetail, setActiveDetail] = useState<DetailKey | null>(null);
   const position = (share: number) => Math.max(0, Math.min(1, share)) * 100;
   const handled = position(snapshot.work.handledPosition);
@@ -35,9 +34,11 @@ export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: Movin
     "--revenue-ratio": `${revenueRatio * 100}%`,
   } as CSSProperties;
 
-  const entrantOpacity = phaseIndex >= 1 && phaseIndex <= 4 ? 1 : 0;
-  const identityOpacity = phaseIndex >= 2 && phaseIndex <= 4 ? 1 : 0;
-  const clientOpacity = phaseIndex >= 3 && phaseIndex <= 4 ? 1 : 0;
+  const captureOpacity = (value: number) => Math.min(1, value / Math.max(1, baselineRevenue * 0.04));
+  const entrantOpacity = captureOpacity(snapshot.entrantValue);
+  const identityOpacity = captureOpacity(snapshot.newIdentityValue);
+  const clientOpacity = captureOpacity(snapshot.clientValue);
+  const evaporationOpacity = Math.min(1, snapshot.evaporatedValue / Math.max(1, baselineRevenue * 0.12));
   const nodeSize = (value: number) => `${Math.max(10, Math.min(48, 10 + Math.sqrt(value / Math.max(1, baselineRevenue)) * 54))}px`;
   const workUnits = (share: number) => Math.round(share * snapshot.work.totalWorkIndex * 100);
   const details = {
@@ -89,7 +90,7 @@ export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: Movin
   const detail = activeDetail ? details[activeDetail] : null;
 
   return (
-    <section className={`moving-line-scene moving-line-scene--act-${phaseIndex + 1}`} style={sceneStyle} aria-label="The race between AI capability and what clients hire the agency to do">
+    <section className="moving-line-scene" style={sceneStyle} aria-label="The race between AI capability and what clients hire the agency to do">
       <div className="scene-field-caption">
         <span>Current work: routine to contextual</span>
         <span className="scene-field-metrics" {...detailProps("turnover")}><strong>{Math.round(snapshot.work.totalWorkIndex * 100)}</strong> work index / <strong>{percent(snapshot.work.retiredWork)}</strong> retired</span>
@@ -126,7 +127,7 @@ export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: Movin
         <i />
       </div>
 
-      <div className="scene-evaporation" style={{ left: `${Math.max(8, handled * 0.55)}%` }} aria-hidden="true">
+      <div className="scene-evaporation" style={{ left: `${Math.max(8, handled * 0.55)}%`, opacity: evaporationOpacity }} aria-hidden="true">
         <i />
         <span>Below the cost of external exchange</span>
       </div>

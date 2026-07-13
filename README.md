@@ -18,6 +18,10 @@ The application opens with a complete ten-year scenario. Users can play or
 scrub through time, change the four clock rates and starting revenue, and reset
 to the baked defaults. The model uses a continuous work landscape rather than
 assigning permanent AI or human status to named service categories.
+All mechanisms run from the opening date; live economic conditions change the
+emphasis without assigning artificial start dates to identity, absorption, or
+frontier expansion. The interregnum appears as a derived interval on the
+timeline.
 New Work, including initiatives already visible at the opening date, expands
 and rebases the current `100%`; work that becomes infrastructure or is replaced
 retires from the viable-work field. Hover or focus any area to see its

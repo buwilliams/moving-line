@@ -1,4 +1,4 @@
-import { clamp01, dateToDay, daysBetween, type ISODate } from "./time";
+import { clamp01, dateToDay, dayToDate, daysBetween, type ISODate } from "./time";
 
 export const SIMULATION_START: ISODate = "2026-07-01";
 export const SIMULATION_END: ISODate = "2036-06-30";
@@ -40,6 +40,8 @@ export interface WorkSnapshot {
     identityBoundary: number;
   };
   agencyRevenueAnnual: number;
+  legacyRevenueAnnual: number;
+  replacementDemandAnnual: number;
   incumbentValue: number;
   newIdentityValue: number;
   entrantValue: number;
@@ -131,6 +133,8 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
 
   const baseline = assumptions.annualRevenue;
   const legacyRetention = 1 - 0.95 * capabilityProgress;
+  const legacyRevenueAnnual = baseline * legacyRetention;
+  const replacementDemandAnnual = baseline * realizedNewWork;
   const constitutiveCapture =
     CONSTITUTIVE_CORE * capabilityProgress * (0.35 + 0.65 * identityProgress);
   const incumbentExpansion = realizedNewWork * identityProgress * 0.12;
@@ -169,12 +173,44 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
       identityBoundary,
     },
     agencyRevenueAnnual: incumbentValue + newIdentityValue,
+    legacyRevenueAnnual,
+    replacementDemandAnnual,
     incumbentValue,
     newIdentityValue,
     entrantValue,
     clientValue,
     evaporatedValue,
   };
+}
+
+export interface InterregnumWindow {
+  start: ISODate;
+  end: ISODate | null;
+}
+
+export function findInterregnumWindow(
+  assumptions: WorkAssumptions,
+): InterregnumWindow | null {
+  const startDay = dateToDay(SIMULATION_START);
+  const endDay = dateToDay(SIMULATION_END);
+  const step = 7;
+  let interregnumStart: ISODate | null = null;
+
+  for (let day = startDay; day <= endDay; day += step) {
+    const currentDate = dayToDate(Math.min(day, endDay));
+    const snapshot = simulateWorkAt(assumptions, currentDate);
+    const oldModelIsDead = snapshot.legacyRevenueAnnual <= assumptions.annualRevenue * 0.5;
+    const newDemandHasMaterialized =
+      snapshot.replacementDemandAnnual >= snapshot.legacyRevenueAnnual;
+
+    if (!interregnumStart && oldModelIsDead && !newDemandHasMaterialized) {
+      interregnumStart = currentDate;
+    } else if (interregnumStart && newDemandHasMaterialized) {
+      return { start: interregnumStart, end: currentDate };
+    }
+  }
+
+  return interregnumStart ? { start: interregnumStart, end: null } : null;
 }
 
 export function isWithinSimulation(date: ISODate) {

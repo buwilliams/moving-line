@@ -8,6 +8,7 @@ import {
   DEFAULT_WORK_ASSUMPTIONS,
   SIMULATION_END,
   SIMULATION_START,
+  findInterregnumWindow,
   simulateWorkAt,
   type WorkAssumptions,
 } from "./model/workModel";
@@ -91,36 +92,26 @@ function App() {
   }, [playing, speed.daysPerSecond]);
 
   const snapshot = useMemo(() => simulateWorkAt(assumptions, date), [assumptions, date]);
+  const interregnum = useMemo(() => findInterregnumWindow(assumptions), [assumptions]);
   const revenueChange = snapshot.agencyRevenueAnnual / assumptions.annualRevenue - 1;
-
-  const phases = [
-    {
-      title: "Two lines begin the race",
-      statement: "AI capability moves at research speed. What clients hire the agency for moves at identity speed.",
-    },
-    {
-      title: "Price moves before organizations",
-      statement: "The frontier reprices work before organizations can absorb it.",
-    },
-    {
-      title: "The interregnum opens",
-      statement: "The old revenue model is dead before new demand can support it.",
-    },
-    {
-      title: "The low end leaves the market",
-      statement: "Compressed work falls below external transaction costs and moves inside clients.",
-    },
-    {
-      title: "Identity decides who follows",
-      statement: "Clients retain yesterday's idea of the agency while entrants and new identities start farther ahead.",
-    },
-    {
-      title: "The problem frontier expands",
-      statement: "Cheaper capability expands the world of possible work, and the frontier follows.",
-    },
-  ];
-  const phaseIndex = Math.min(phases.length - 1, Math.floor(snapshot.horizonProgress * phases.length));
-  const phase = phases[phaseIndex];
+  const currentDay = dateToDay(date);
+  const interregnumIsActive = interregnum !== null &&
+    currentDay >= dateToDay(interregnum.start) &&
+    currentDay <= dateToDay(interregnum.end ?? SIMULATION_END);
+  const insight = interregnumIsActive
+    ? {
+        title: "The interregnum is active",
+        statement: "The old revenue model is dead while replacement demand is still forming.",
+      }
+    : snapshot.replacementDemandAnnual >= snapshot.legacyRevenueAnnual
+      ? {
+          title: "New demand is materializing",
+          statement: "The problem frontier keeps expanding, while identity still decides which actors can follow it.",
+        }
+      : {
+          title: "Identity already decides who follows",
+          statement: "Every clock is moving now. Capability moves fastest; incumbent identity changes slowest.",
+        };
 
   const reset = () => {
     setPlaying(false);
@@ -143,7 +134,7 @@ function App() {
             <small>Explanatory revenue simulation</small>
           </a>
         </div>
-        <div className="chapter-marker">{String(phaseIndex + 1).padStart(2, "0")} / {String(phases.length).padStart(2, "0")}</div>
+        <div className="mechanism-marker">All clocks active</div>
         <div className="minimal-actions">
           <button title="Reset simulation" onClick={reset}><RotateCcw size={17} /></button>
           <button title="Full screen" onClick={toggleFullscreen}><Expand size={17} /></button>
@@ -158,15 +149,15 @@ function App() {
             <h1>{money.format(snapshot.agencyRevenueAnnual)}</h1>
             <p>{Math.abs(revenueChange) < 0.005 ? "At baseline" : `${Math.abs(revenueChange * 100).toFixed(0)}% ${revenueChange < 0 ? "below" : "above"} baseline`}</p>
           </div>
-          <div className="phase-reading">
-            <h2>{phase.title}</h2>
-            <p>{phase.statement}</p>
+          <div className="insight-reading">
+            <h2>{insight.title}</h2>
+            <p>{insight.statement}</p>
           </div>
         </section>
 
-        <MovingLineScene snapshot={snapshot} baselineRevenue={assumptions.annualRevenue} phaseIndex={phaseIndex} />
+        <MovingLineScene snapshot={snapshot} baselineRevenue={assumptions.annualRevenue} />
 
-        <TimelineControl date={date} onDateChange={setDate} />
+        <TimelineControl date={date} interregnum={interregnum} snapshot={snapshot} onDateChange={setDate} />
 
         <Transport
           date={date}

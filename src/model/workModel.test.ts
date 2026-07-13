@@ -3,6 +3,7 @@ import {
   DEFAULT_WORK_ASSUMPTIONS,
   SIMULATION_END,
   SIMULATION_START,
+  findInterregnumWindow,
   simulateWorkAt,
 } from "./workModel";
 
@@ -45,6 +46,21 @@ describe("work landscape model", () => {
     expect(firstMonth.distributionProgress).toBeGreaterThan(opening.distributionProgress);
     expect(firstMonth.marketEntryProgress).toBeGreaterThan(opening.marketEntryProgress);
     expect(firstMonth.identityProgress).toBeGreaterThan(opening.identityProgress);
+  });
+
+  it("derives the interregnum from revenue and demand instead of fixed dates", () => {
+    const interregnum = findInterregnumWindow(DEFAULT_WORK_ASSUMPTIONS);
+    expect(interregnum).not.toBeNull();
+    expect(interregnum?.start).not.toBe(SIMULATION_START);
+    expect(interregnum?.end).not.toBeNull();
+
+    const opening = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, interregnum!.start);
+    const ending = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, interregnum!.end!);
+    expect(opening.legacyRevenueAnnual).toBeLessThanOrEqual(
+      DEFAULT_WORK_ASSUMPTIONS.annualRevenue * 0.5,
+    );
+    expect(opening.replacementDemandAnnual).toBeLessThan(opening.legacyRevenueAnnual);
+    expect(ending.replacementDemandAnnual).toBeGreaterThanOrEqual(ending.legacyRevenueAnnual);
   });
 
   it("lets market entry close the capability gap after its early peak", () => {

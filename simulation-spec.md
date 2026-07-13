@@ -12,7 +12,8 @@ It is not a forecast for a particular agency and it does not claim that named
 disciplines are permanently human or machine work. Its purpose is to make the
 essay's causal path visible:
 
-1. AI capability advances through work at research speed.
+1. AI capability, absorption, distribution, and identity are all moving from
+   the opening moment, at different rates.
 2. Prices respond before organizations absorb the capability.
 3. The lag creates an interregnum in which incumbent revenue falls.
 4. Work below the cost of external exchange moves client-side or evaporates.
@@ -65,7 +66,7 @@ The first viewport contains:
 
 - A header link to the source essay
 - Current annualized agency revenue and change from baseline
-- One current chapter title and one causal sentence
+- One condition-driven emphasis and one causal sentence
 - One cinematic work field
 - A dated timeline with one current-moment dot
 - Play, pause, step, and rate controls attached to the dated timeline
@@ -99,8 +100,9 @@ At any date the field is divided into:
    not a permanent safe harbor.
 
 The first four regions partition current viable work. New Work is a green
-overlay showing how much of that current field did not exist at the opening
-date. Each area names itself and shows its live share of the current field.
+overlay showing work opened by recent capability, including `4` points already
+visible at the opening date. Each area names itself and shows its live share of
+the current field.
 Hovering or focusing an area reveals its definition, current share, and
 absolute quantity in work-index points.
 
@@ -127,8 +129,8 @@ identities; it is not a third thesis line. The amber **Capability gap** between
 as new actors operationalize the capability.
 
 The interregnum is temporal and economic: **the period in which the old revenue
-model is dead and the new demand has not yet materialized**. It is expressed by
-the chapter narrative and revenue movement, not mislabeled as a region of work.
+model is dead and the new demand has not yet materialized**. It is shown as an
+amber interval on the timeline, not mislabeled as a region of work.
 
 ## 6. The Four Clocks
 
@@ -152,41 +154,39 @@ capability instead of redrawing an inherited identity.
 
 ## 7. Value Capture
 
-AI-native entrant capture appears when price begins moving. Protected new
-identity capture joins during the interregnum, and client capture joins during
-the low-end evaporation chapter. The complete set remains visible through the
-value-relocation chapter:
+AI-native entrant capture, protected new-identity capture, and client capture
+are calculated from the opening date. Their visual prominence follows their
+live value rather than a scheduled reveal:
 
 - A protected new identity
 - An AI-native entrant
 - Client organizations through in-housing
 
-Their size grows with modeled capture and each shows its live annual value. They
-are absent in earlier chapters and fade again when the final problem-frontier
-expansion becomes the focus. Incumbent revenue is represented separately by a
-shrinking ribbon with its live annual value.
+Their size and opacity grow with modeled capture and each shows its live annual
+value. Incumbent revenue is represented separately by a shrinking ribbon with
+its live annual value.
 
 The model also calculates value that has no captor during the interregnum. This
-supports the Coasean-floor chapter without presenting evaporation as revenue
+supports the Coasean-floor mechanism without presenting evaporation as revenue
 earned by an actor.
 
-## 8. Explanatory Chapters
+## 8. Concurrent Mechanisms
 
-The path is divided into six chapters:
+The essay's sections are logical parts of one system, not chronological stages.
+Capability, repricing, absorption, evaporation, identity, market entry, and
+frontier expansion all begin in motion. The app never assigns any of them an
+artificial onset date.
 
-1. **Two lines begin the race**: AI capability begins near what clients hire
-   the agency to do.
-2. **Price moves before organizations**: capability outruns absorption.
-3. **The interregnum opens**: the old revenue model is dead before new demand
-   can support it.
-4. **The low end leaves the market**: clients absorb work and outside revenue
-   contracts.
-5. **Identity decides who follows**: the incumbent cannot automatically claim
-   frontier-distant work.
-6. **The problem frontier expands**: New Work, visible from the opening moment,
-   becomes the focus as it expands and changes the current field.
+The headline instead emphasizes a condition supported by the current values:
 
-Each chapter shows one causal claim. The animated field is the evidence.
+1. **Identity already decides who follows** while legacy revenue remains viable
+   and replacement demand remains smaller.
+2. **The interregnum is active** while the old revenue model is below the
+   viability threshold and replacement demand remains smaller than it.
+3. **New demand is materializing** after replacement demand overtakes the
+   remaining legacy model.
+
+These are changes of emphasis, not the start or end of the underlying clocks.
 
 ## 9. User Controls
 
@@ -239,6 +239,13 @@ changes, and the total work index can grow despite simultaneous retirement.
 Its economic realization comes through slower client absorption plus faster
 entry by organizations founded around the capability.
 
+The timeline derives the interregnum from the selected clocks. The old model is
+treated as dead after legacy revenue falls below `50%` of its opening level; new
+demand is treated as materialized when annual replacement demand overtakes the
+remaining legacy revenue. The `50%` viability threshold is an explicit
+explanatory assumption, not an empirical constant. If no crossover occurs
+inside the horizon, the interval continues beyond the model.
+
 Incumbent revenue declines with frontier advance. Constitutive relationships
 provide a limited residual, and identity progress permits limited participation
 in new demand. Entrants benefit from the gap between capability and identity;
@@ -254,7 +261,7 @@ estimated forecasts.
 - One continuous work field rather than a dashboard or named service cards
 - Two plain-language moving-line labels: **AI can do** and **Clients hire us for**
 - A shrinking revenue ribbon rather than a revenue chart
-- Capture destinations revealed only during the relevant chapter
+- Capture destinations visible in proportion to their live modeled value
 - A green New Work overlay that expands within the rebased current `100%`
 - Hover and keyboard-focus details for definitions and live quantities
 - Desktop presentation fits within the first viewport
@@ -277,7 +284,8 @@ estimated forecasts.
 8. A protected new identity remains distinct from the incumbent identity.
 9. New Work is visible at the opening date, expands the current work index, and
    remains part of the visible `100%`.
-10. The six chapter statements remain consistent with live evidence.
+10. No mechanism receives an artificial start date; changes in emphasis are
+    derived from live economic conditions.
 11. Revenue and clock controls produce materially different paths.
 12. Reset restores the baked model and opening date.
 13. Engine tests, the production build, and desktop/mobile browser checks pass
