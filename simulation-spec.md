@@ -1,0 +1,247 @@
+# The Moving Line: Explanatory Simulation Specification
+
+Status: Implemented
+Revised: 2026-07-13
+
+## 1. Purpose
+
+The Moving Line is an interactive explanation of the economic model in the
+essay "The Moving Line: AI's Compression Frontier and the Speed of Identity."
+
+It is not a forecast for a particular agency and it does not claim that named
+disciplines are permanently human or machine work. Its purpose is to make the
+essay's causal path visible:
+
+1. AI capability advances through work at research speed.
+2. Prices respond before organizations absorb the capability.
+3. The lag creates an interregnum in which incumbent revenue falls.
+4. Work below the cost of external exchange moves client-side or evaporates.
+5. Residual value accrues to clients, entrants, and genuinely new identities.
+6. What clients hire the incumbent for changes more slowly than AI capability.
+7. New capability opens initiatives and problems beyond today's work, while
+   absorption and distribution govern how quickly they produce economic value.
+
+## 2. Experience Principles
+
+### Complete on arrival
+
+The application opens with a baked ten-year scenario. Play is the first
+meaningful action. The user does not define offers, categories, or events.
+
+### One current moment
+
+The dated timeline contains one playhead and is itself the scrubber. Clicking,
+dragging, or using arrow keys on the rail changes the date. Every other reading
+describes the work and economics at that date.
+
+### Rates, not task labels
+
+The simulation models positions and rates. It never assigns a permanent
+compression date to implementation, verification, workflow redesign, or any
+other named discipline. Those labels expire as models improve.
+
+### Capability is not adoption
+
+Work an AI system can perform is distinct from work an organization has
+operationalized. Preserving this distinction is necessary to show the
+interregnum.
+
+### Identity governs permission
+
+Identity is not a kind of work. It is the external and internal boundary that
+determines what buyers permit a firm to sell and what its selection function is
+capable of delivering.
+
+## 3. Primary View
+
+The first viewport contains:
+
+- Current annualized agency revenue and change from baseline
+- One current chapter title and one causal sentence
+- One cinematic work field
+- A dated timeline with one current-moment dot
+- Play, pause, step, and rate controls attached to the dated timeline
+
+There are no offer categories, category editors, category compression dates,
+strategy rankings, employee recommendations, persistent value-capture cards,
+or clock progress meters.
+
+## 4. Work Landscape
+
+The original work field is a continuous conceptual gradient. Its left edge is
+more specifiable, bounded, and verifiable. Its right edge is more contextual,
+relational, and constitutive.
+
+At any date the field is divided into:
+
+1. **Used with AI**: technically reachable work that organizations have
+   absorbed into functioning operations.
+2. **The interregnum**: technically reachable work still blocked by workflows,
+   verification, trust, politics, deployment, or accountability.
+3. **Human-held contingent work**: work the frontier has not reached yet, but
+   which the model does not claim is permanently human.
+4. **Constitutive core**: trust, liability, accountability, and institutional
+   legitimacy. The obligations persist even if their associated labor or
+   revenue changes.
+5. **New work**: initiatives and problems opened by new capability. It expands
+   beyond the marked original boundary immediately, while its economic
+   realization still waits on absorption and distribution. It is not a
+   permanent safe harbor.
+
+The field itself carries these distinctions. Each region names itself and shows
+its live share of the original work field. No secondary work-state cards repeat
+the same information.
+
+## 5. The Two Lines
+
+Two prominent vertical lines move across the work field:
+
+| Boundary | Meaning | Default behavior |
+| --- | --- | --- |
+| **AI can do** | Work current AI can technically perform | Reaches roughly 95% of the modeled field within five years |
+| **Clients hire us for** | Work buyers believe the incumbent agency is for | Moves slowest |
+
+The opening position places what clients hire the agency for narrowly ahead of
+AI capability. The capability line passes it early. Organizational absorption
+is shown as the fill transition inside the AI-capable region, not as a third
+thesis line. The amber region between work used with AI and the **AI can do**
+line is labeled **The interregnum**: technically possible work that
+organizations have not operationalized.
+
+## 6. The Four Clocks
+
+| Clock | Meaning | Baked rate |
+| --- | --- | --- |
+| Capability | Advance of technical reach | `8x` |
+| Absorption | Operational adoption inside clients | `0.5x` |
+| Distribution | Economy-wide spread and demand realization | Derived from absorption at `2x` demand response |
+| Identity | Redraw of buyer belief and organizational selection | `0.125x` |
+
+The default rates are intentionally asymmetric. Capability approaches the
+contingent limit during the ten-year path, absorption remains materially
+behind, distribution cannot outrun absorption, and identity remains the slowest
+clock. These differences are communicated by the two lines, the changing
+operational fill, and value movement rather than four persistent progress bars.
+
+## 7. Value Capture
+
+Client capture first appears during the low-end evaporation chapter. During the
+value-relocation chapter, the complete set of three destination circles appears
+for:
+
+- A protected new identity
+- An AI-native entrant
+- Client organizations through in-housing
+
+Their size grows with modeled capture and each shows its live annual value. They
+are absent in earlier chapters and fade again when the final problem-frontier
+expansion becomes the focus. Incumbent revenue is represented separately by a
+shrinking ribbon with its live annual value.
+
+The model also calculates value that has no captor during the interregnum. This
+supports the Coasean-floor chapter without presenting evaporation as revenue
+earned by an actor.
+
+## 8. Explanatory Chapters
+
+The path is divided into six chapters:
+
+1. **Two lines begin the race**: AI capability begins near what clients hire
+   the agency to do.
+2. **Price moves before organizations**: capability outruns absorption.
+3. **The interregnum opens**: AI-capable work waits on organizational change.
+4. **The low end leaves the market**: clients absorb work and outside revenue
+   contracts.
+5. **Identity decides who follows**: the incumbent cannot automatically claim
+   frontier-distant work.
+6. **The problem frontier expands**: the new-work frontier, visible from the
+   opening moment, becomes the focus as it grows beyond the original field.
+
+Each chapter shows one causal claim. The animated field is the evidence.
+
+## 9. User Controls
+
+The user can change:
+
+- Starting annual agency revenue from `$100,000` to `$100,000,000` in
+  `$100,000` increments
+- AI capability pace
+- Client absorption pace
+- Demand response
+- Client perception pace
+
+The four rate controls use logarithmic `1/32x` to `32x` ranges. Reset restores
+the baked rates, `$2.9M` revenue, and the opening date. Playback rates are Day,
+Week, Month, Quarter, and Year per second. The default is Year so the complete
+ten-year argument plays in roughly ten seconds.
+
+## 10. Model Mapping
+
+The scenario begins with an existing frontier at `22%` of the original work
+field, initial organizational absorption at `8%`, a constitutive core of `5%`,
+and a client-hiring line at `26%`.
+
+Clock progress uses continuous exponential curves. Every clock is already
+running at the opening date; their different speeds create the lag. Positions
+are derived as:
+
+```text
+frontier position = initial frontier + capability progress * remaining contingent work
+absorption position = initial absorption + absorption progress * reachable work
+client-hiring line = initial client perception + identity progress * remaining work
+```
+
+Capability opens possible new work immediately:
+
+```text
+possible new work = existing new work + capability progress * generative range
+realized new work = possible new work * distribution-adjusted realization
+```
+
+The opening state includes `4%` new work to represent initiatives, products,
+and roles already visible on the ground. The possible-work frontier advances
+with capability, while its economic realization and capture remain gated by
+the slower absorption and distribution clocks.
+
+Incumbent revenue declines with frontier advance. Constitutive relationships
+provide a limited residual, and identity progress permits limited participation
+in new demand. Entrants benefit from the gap between capability and identity;
+clients benefit as absorbed capability moves work inside the firm.
+
+The formulas are deterministic explanatory relationships, not empirically
+estimated forecasts.
+
+## 11. Visual Direction
+
+- Neutral-black presentation canvas
+- Red AI capability, amber interregnum, blue client perception, green new work
+- One continuous work field rather than a dashboard or named service cards
+- Two plain-language moving-line labels: **AI can do** and **Clients hire us for**
+- A shrinking revenue ribbon rather than a revenue chart
+- Capture destinations revealed only during the relevant chapter
+- A green problem frontier that physically expands beyond the marked original
+  work boundary
+- Desktop presentation fits within the first viewport
+- Mobile presentation preserves the complete field and timeline without
+  page-level overflow
+
+## 12. Acceptance Criteria
+
+1. A first-time user can press Play without configuring anything.
+2. No named offer or discipline is modeled as a permanent work category.
+3. AI-capable work is visibly divided into **Used with AI** and **The
+   interregnum**.
+4. The **AI can do** line outruns both operational usage and **Clients hire us
+   for** by default.
+5. Agency revenue falls during the interregnum.
+6. The work field preserves a visible constitutive core without claiming its
+   economic size is permanent.
+7. Capture shifts from the incumbent toward clients and entrants.
+8. A protected new identity remains distinct from the incumbent identity.
+9. New Work is visible at the opening date, expands beyond the original
+   boundary, and stays inside the drawing.
+10. The six chapter statements remain consistent with live evidence.
+11. Revenue and clock controls produce materially different paths.
+12. Reset restores the baked model and opening date.
+13. Engine tests, the production build, and desktop/mobile browser checks pass
+    without console errors or page-level horizontal overflow.
