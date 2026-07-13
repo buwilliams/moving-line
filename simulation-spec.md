@@ -56,6 +56,7 @@ capable of delivering.
 
 The first viewport contains:
 
+- A header link to the source essay
 - Current annualized agency revenue and change from baseline
 - One current chapter title and one causal sentence
 - One cinematic work field
@@ -74,10 +75,11 @@ relational, and constitutive.
 
 At any date the field is divided into:
 
-1. **Used with AI**: technically reachable work that organizations have
-   absorbed into functioning operations.
-2. **The interregnum**: technically reachable work still blocked by workflows,
-   verification, trust, politics, deployment, or accountability.
+1. **AI Work**: work handled with AI anywhere in the market, whether by client
+   organizations, AI-native entrants, or protected new identities.
+2. **The interregnum**: technically reachable work that the market has not yet
+   converted into AI Work because of workflows, verification, trust, politics,
+   deployment, accountability, or distribution.
 3. **Human-held contingent work**: work the frontier has not reached yet, but
    which the model does not claim is permanently human.
 4. **Constitutive core**: trust, liability, accountability, and institutional
@@ -102,11 +104,11 @@ Two prominent vertical lines move across the work field:
 | **Clients hire us for** | Work buyers believe the incumbent agency is for | Moves slowest |
 
 The opening position places what clients hire the agency for narrowly ahead of
-AI capability. The capability line passes it early. Organizational absorption
-is shown as the fill transition inside the AI-capable region, not as a third
-thesis line. The amber region between work used with AI and the **AI can do**
-line is labeled **The interregnum**: technically possible work that
-organizations have not operationalized.
+AI capability. The capability line passes it early. The red **AI Work** fill
+combines slow client absorption with faster market entry by entrants and new
+identities; it is not a third thesis line. The amber region between **AI Work**
+and the **AI can do** line is labeled **The interregnum**. It widens early,
+peaks, and then contracts as new actors operationalize the capability.
 
 ## 6. The Four Clocks
 
@@ -123,11 +125,17 @@ behind, distribution cannot outrun absorption, and identity remains the slowest
 clock. These differences are communicated by the two lines, the changing
 operational fill, and value movement rather than four persistent progress bars.
 
+Market entry is a derived path rather than a fifth user-controlled clock. It
+responds to demand faster than incumbent absorption because entrants and
+protected new identities can begin with a boundary drawn near current
+capability instead of redrawing an inherited identity.
+
 ## 7. Value Capture
 
-Client capture first appears during the low-end evaporation chapter. During the
-value-relocation chapter, the complete set of three destination circles appears
-for:
+AI-native entrant capture appears when price begins moving. Protected new
+identity capture joins during the interregnum, and client capture joins during
+the low-end evaporation chapter. The complete set remains visible through the
+value-relocation chapter:
 
 - A protected new identity
 - An AI-native entrant
@@ -172,8 +180,8 @@ The user can change:
 
 The four rate controls use logarithmic `1/32x` to `32x` ranges. Reset restores
 the baked rates, `$2.9M` revenue, and the opening date. Playback rates are Day,
-Week, Month, Quarter, and Year per second. The default is Year so the complete
-ten-year argument plays in roughly ten seconds.
+Week, Month, Quarter, and Year per second. The default is Month, so the complete
+ten-year argument plays in roughly two minutes.
 
 ## 10. Model Mapping
 
@@ -187,7 +195,9 @@ are derived as:
 
 ```text
 frontier position = initial frontier + capability progress * remaining contingent work
-absorption position = initial absorption + absorption progress * reachable work
+client absorption = initial AI Work + absorption progress * reachable work
+market entry = demand-driven founding progress
+AI Work position = initial AI Work + combined client absorption and market entry * reachable work
 client-hiring line = initial client perception + identity progress * remaining work
 ```
 
@@ -195,13 +205,13 @@ Capability opens possible new work immediately:
 
 ```text
 possible new work = existing new work + capability progress * generative range
-realized new work = possible new work * distribution-adjusted realization
+realized new work = possible new work * client distribution and market-entry realization
 ```
 
 The opening state includes `4%` new work to represent initiatives, products,
 and roles already visible on the ground. The possible-work frontier advances
-with capability, while its economic realization and capture remain gated by
-the slower absorption and distribution clocks.
+with capability, while its economic realization comes through slower client
+absorption plus faster entry by organizations founded around the capability.
 
 Incumbent revenue declines with frontier advance. Constitutive relationships
 provide a limited residual, and identity progress permits limited participation
@@ -229,8 +239,7 @@ estimated forecasts.
 
 1. A first-time user can press Play without configuring anything.
 2. No named offer or discipline is modeled as a permanent work category.
-3. AI-capable work is visibly divided into **Used with AI** and **The
-   interregnum**.
+3. AI-capable work is visibly divided into **AI Work** and **The interregnum**.
 4. The **AI can do** line outruns both operational usage and **Clients hire us
    for** by default.
 5. Agency revenue falls during the interregnum.
@@ -245,3 +254,5 @@ estimated forecasts.
 12. Reset restores the baked model and opening date.
 13. Engine tests, the production build, and desktop/mobile browser checks pass
     without console errors or page-level horizontal overflow.
+14. The header links to the source essay at
+    `https://buddy-williams.com/writings/moving-line`.

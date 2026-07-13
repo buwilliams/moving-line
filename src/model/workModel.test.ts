@@ -18,12 +18,12 @@ describe("work landscape model", () => {
     expect(snapshot.capabilityProgress).toBeGreaterThan(snapshot.absorptionProgress);
     expect(snapshot.absorptionProgress).toBeGreaterThan(snapshot.identityProgress);
     expect(snapshot.work.frontierPosition).toBeGreaterThan(snapshot.work.identityBoundary);
-    expect(snapshot.work.awaitingAbsorption).toBeGreaterThan(0.25);
+    expect(snapshot.work.interregnum).toBeGreaterThan(0.1);
     expect(snapshot.distributionProgress).toBeLessThanOrEqual(snapshot.absorptionProgress);
     expect(
-      snapshot.work.aiPerformed +
-      snapshot.work.awaitingAbsorption +
-      snapshot.work.humanContingent +
+      snapshot.work.aiWork +
+      snapshot.work.interregnum +
+      snapshot.work.humanWork +
       snapshot.work.constitutiveCore,
     ).toBeCloseTo(1, 8);
   });
@@ -31,17 +31,27 @@ describe("work landscape model", () => {
   it("moves the capability line across roughly 95% of work within five years", () => {
     const fiveYears = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, "2031-07-01");
     expect(fiveYears.work.frontierPosition).toBeGreaterThan(0.945);
-    expect(fiveYears.work.absorptionPosition).toBeLessThan(fiveYears.work.frontierPosition);
+    expect(fiveYears.work.handledPosition).toBeLessThan(fiveYears.work.frontierPosition);
     expect(fiveYears.work.identityBoundary).toBeLessThan(fiveYears.work.frontierPosition);
   });
 
   it("starts every clock immediately while preserving their different speeds", () => {
     const opening = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_START);
     const firstMonth = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, "2026-08-01");
-    expect(firstMonth.work.aiPerformed).toBeGreaterThan(opening.work.aiPerformed);
+    expect(firstMonth.work.aiWork).toBeGreaterThan(opening.work.aiWork);
     expect(firstMonth.work.frontierPosition).toBeGreaterThan(opening.work.frontierPosition);
     expect(firstMonth.distributionProgress).toBeGreaterThan(opening.distributionProgress);
+    expect(firstMonth.marketEntryProgress).toBeGreaterThan(opening.marketEntryProgress);
     expect(firstMonth.identityProgress).toBeGreaterThan(opening.identityProgress);
+  });
+
+  it("lets market entry close the interregnum after its early peak", () => {
+    const opening = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_START);
+    const firstYear = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, "2027-07-01");
+    const ending = simulateWorkAt(DEFAULT_WORK_ASSUMPTIONS, SIMULATION_END);
+    expect(firstYear.work.interregnum).toBeGreaterThan(opening.work.interregnum);
+    expect(ending.work.interregnum).toBeLessThan(firstYear.work.interregnum);
+    expect(firstYear.marketEntryProgress).toBeGreaterThan(firstYear.absorptionProgress);
   });
 
   it("opens with new work already visible and expands it with capability", () => {

@@ -19,6 +19,9 @@ scrub through time, change the four clock rates and starting revenue, and reset
 to the baked defaults. The model uses a continuous work landscape rather than
 assigning permanent AI or human status to named service categories.
 
+The app links directly to the source essay:
+[The Moving Line](https://buddy-williams.com/writings/moving-line).
+
 ## Run
 
 ```bash

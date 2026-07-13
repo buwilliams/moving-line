@@ -1,4 +1,4 @@
-import { Expand, RotateCcw, SlidersHorizontal, X } from "lucide-react";
+import { Expand, ExternalLink, RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MovingLineScene } from "./components/MovingLineScene";
 import { Transport, type SpeedOption } from "./components/Transport";
@@ -67,7 +67,7 @@ function App() {
   const [assumptions, setAssumptions] = useState<WorkAssumptions>(DEFAULT_WORK_ASSUMPTIONS);
   const [date, setDate] = useState(SIMULATION_START);
   const [playing, setPlaying] = useState(false);
-  const [speed, setSpeed] = useState<SpeedOption>(speeds[4]);
+  const [speed, setSpeed] = useState<SpeedOption>(speeds[2]);
   const [controlsOpen, setControlsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -136,7 +136,13 @@ function App() {
   return (
     <div className="app" ref={rootRef}>
       <header className="minimal-header explanatory-header">
-        <div className="minimal-brand"><span className="minimal-brand__line" /><span>The Moving Line<small>Explanatory revenue simulation</small></span></div>
+        <div className="minimal-brand">
+          <span className="minimal-brand__line" />
+          <a href="https://buddy-williams.com/writings/moving-line" target="_blank" rel="noreferrer" title="Read The Moving Line essay">
+            <span>The Moving Line <ExternalLink size={11} aria-hidden="true" /></span>
+            <small>Explanatory revenue simulation</small>
+          </a>
+        </div>
         <div className="chapter-marker">{String(phaseIndex + 1).padStart(2, "0")} / {String(phases.length).padStart(2, "0")}</div>
         <div className="minimal-actions">
           <button title="Reset simulation" onClick={reset}><RotateCcw size={17} /></button>

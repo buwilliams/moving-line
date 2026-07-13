@@ -25,15 +25,16 @@ export interface WorkSnapshot {
   capabilityProgress: number;
   absorptionProgress: number;
   distributionProgress: number;
+  marketEntryProgress: number;
   identityProgress: number;
   work: {
-    aiPerformed: number;
-    awaitingAbsorption: number;
-    humanContingent: number;
+    aiWork: number;
+    interregnum: number;
+    humanWork: number;
     constitutiveCore: number;
     newWork: number;
     frontierPosition: number;
-    absorptionPosition: number;
+    handledPosition: number;
     identityBoundary: number;
   };
   agencyRevenueAnnual: number;
@@ -64,24 +65,31 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
   const absorptionProgress = exponentialProgress(horizonProgress, assumptions.absorptionPace, 1.55);
   const demandActivation = exponentialProgress(horizonProgress, assumptions.demandResponse, 1.25);
   const distributionProgress = Math.min(absorptionProgress, absorptionProgress * demandActivation);
+  const marketEntryProgress = exponentialProgress(horizonProgress, assumptions.demandResponse, 3.5);
   const identityProgress = exponentialProgress(horizonProgress, assumptions.identityPace, 0.9);
 
   const frontierPosition =
     INITIAL_FRONTIER + (CONTINGENT_LIMIT - INITIAL_FRONTIER) * capabilityProgress;
-  const absorptionPosition =
+  const clientAbsorptionPosition =
     INITIAL_ABSORPTION + (frontierPosition - INITIAL_ABSORPTION) * absorptionProgress;
+  const marketHandlingProgress = clamp01(
+    1 - (1 - absorptionProgress) * (1 - marketEntryProgress * 0.8),
+  );
+  const handledPosition =
+    INITIAL_ABSORPTION + (frontierPosition - INITIAL_ABSORPTION) * marketHandlingProgress;
   const identityBoundary =
     INITIAL_IDENTITY_BOUNDARY + (CONTINGENT_LIMIT - INITIAL_IDENTITY_BOUNDARY) * identityProgress;
 
-  const aiPerformed = absorptionPosition;
-  const awaitingAbsorption = Math.max(0, frontierPosition - absorptionPosition);
-  const humanContingent = Math.max(0, CONTINGENT_LIMIT - frontierPosition);
-  const absorbedGain = Math.max(0, absorptionPosition - INITIAL_ABSORPTION);
+  const aiWork = handledPosition;
+  const interregnum = Math.max(0, frontierPosition - handledPosition);
+  const humanWork = Math.max(0, CONTINGENT_LIMIT - frontierPosition);
+  const clientAbsorbedGain = Math.max(0, clientAbsorptionPosition - INITIAL_ABSORPTION);
   const newWork = INITIAL_NEW_WORK + capabilityProgress * 0.5;
 
-  // Capability opens possible work immediately; absorption and distribution
-  // determine how much of it becomes operating work with capturable value.
-  const realizedNewWork = newWork * (0.08 + 0.92 * distributionProgress);
+  // Capability opens possible work immediately. Clients realize it through
+  // absorption; entrants and new identities can realize it at founding speed.
+  const realizationProgress = clamp01(distributionProgress + marketEntryProgress * 0.35);
+  const realizedNewWork = newWork * (0.08 + 0.92 * realizationProgress);
 
   const baseline = assumptions.annualRevenue;
   const legacyRetention = 1 - 0.95 * capabilityProgress;
@@ -89,13 +97,15 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
     CONSTITUTIVE_CORE * capabilityProgress * (0.35 + 0.65 * identityProgress);
   const incumbentExpansion = realizedNewWork * identityProgress * 0.12;
   const incumbentValue = baseline * Math.max(0, legacyRetention + constitutiveCapture + incumbentExpansion);
-  const newIdentityValue = baseline * realizedNewWork * identityProgress * 0.45;
+  const newIdentityValue = baseline * (
+    realizedNewWork * marketEntryProgress * (0.12 + 0.28 * identityProgress)
+  );
   const entrantValue = baseline * (
-    awaitingAbsorption * distributionProgress * 0.25 +
-    realizedNewWork * (1 - identityProgress) * 0.45
+    Math.max(0, handledPosition - clientAbsorptionPosition) * 0.35 +
+    realizedNewWork * (1 - identityProgress) * 0.35
   );
   const clientValue = baseline * (
-    absorbedGain * (0.55 + 0.25 * absorptionProgress) +
+    clientAbsorbedGain * (0.55 + 0.25 * absorptionProgress) +
     realizedNewWork * absorptionProgress * 0.25
   );
   const evaporatedValue = baseline * capabilityProgress * (1 - absorptionProgress) * 0.3;
@@ -106,15 +116,16 @@ export function simulateWorkAt(assumptions: WorkAssumptions, date: ISODate): Wor
     capabilityProgress,
     absorptionProgress,
     distributionProgress,
+    marketEntryProgress,
     identityProgress,
     work: {
-      aiPerformed,
-      awaitingAbsorption,
-      humanContingent,
+      aiWork,
+      interregnum,
+      humanWork,
       constitutiveCore: CONSTITUTIVE_CORE,
       newWork,
       frontierPosition,
-      absorptionPosition,
+      handledPosition,
       identityBoundary,
     },
     agencyRevenueAnnual: incumbentValue + newIdentityValue,

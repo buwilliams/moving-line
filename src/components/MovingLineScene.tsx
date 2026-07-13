@@ -21,14 +21,14 @@ const percent = (value: number) => `${Math.round(value * 100)}%`;
 
 export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: MovingLineSceneProps) {
   const position = (share: number) => Math.max(0, Math.min(1, share)) * ORIGINAL_FIELD_WIDTH;
-  const absorption = position(snapshot.work.absorptionPosition);
+  const handled = position(snapshot.work.handledPosition);
   const frontier = position(snapshot.work.frontierPosition);
   const identity = position(snapshot.work.identityBoundary);
   const core = position(1 - snapshot.work.constitutiveCore);
   const newWork = Math.min(1, snapshot.work.newWork / 0.65) * NEW_FIELD_WIDTH;
   const revenueRatio = Math.min(1, snapshot.incumbentValue / Math.max(1, baselineRevenue));
   const sceneStyle = {
-    "--absorption": `${absorption}%`,
+    "--handled": `${handled}%`,
     "--frontier": `${frontier}%`,
     "--identity": `${identity}%`,
     "--core": `${core}%`,
@@ -36,22 +36,23 @@ export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: Movin
     "--revenue-ratio": `${revenueRatio * 100}%`,
   } as CSSProperties;
 
-  const captureOpacity = phaseIndex === 4 ? 1 : 0;
-  const clientOpacity = phaseIndex === 3 ? 1 : captureOpacity;
+  const entrantOpacity = phaseIndex >= 1 && phaseIndex <= 4 ? 1 : 0;
+  const identityOpacity = phaseIndex >= 2 && phaseIndex <= 4 ? 1 : 0;
+  const clientOpacity = phaseIndex >= 3 && phaseIndex <= 4 ? 1 : 0;
   const nodeSize = (value: number) => `${Math.max(10, Math.min(48, 10 + Math.sqrt(value / Math.max(1, baselineRevenue)) * 54))}px`;
 
   return (
     <section className={`moving-line-scene moving-line-scene--act-${phaseIndex + 1}`} style={sceneStyle} aria-label="The race between AI capability and what clients hire the agency to do">
       <div className="scene-field-caption">Today's work: routine to contextual</div>
       <div className="scene-field">
-        <div className="scene-segment scene-segment--performed">
-          <span className="scene-segment__reading"><b data-short="In use">Used with AI</b><strong>{percent(snapshot.work.aiPerformed)}</strong></span>
+        <div className="scene-segment scene-segment--ai">
+          <span className="scene-segment__reading"><b data-short="AI work">AI Work</b><strong>{percent(snapshot.work.aiWork)}</strong></span>
         </div>
-        <div className="scene-segment scene-segment--waiting">
-          <span className="scene-segment__reading"><b data-short="The gap">The interregnum</b><strong>{percent(snapshot.work.awaitingAbsorption)}</strong><small>AI can; organizations have not</small></span>
+        <div className="scene-segment scene-segment--interregnum">
+          <span className="scene-segment__reading"><b data-short="The gap">The interregnum</b><strong>{percent(snapshot.work.interregnum)}</strong><small>AI can; the market has not</small></span>
         </div>
         <div className="scene-segment scene-segment--human">
-          <span className="scene-segment__reading"><b data-short="Not yet AI">Beyond AI today</b><strong>{percent(snapshot.work.humanContingent)}</strong></span>
+          <span className="scene-segment__reading"><b data-short="Human work">Human Work</b><strong>{percent(snapshot.work.humanWork)}</strong></span>
         </div>
         <div className="scene-segment scene-segment--core">
           <span className="scene-segment__reading"><b data-short="Core">Human core</b><strong>{percent(snapshot.work.constitutiveCore)}</strong><small>trust + liability</small></span>
@@ -71,7 +72,7 @@ export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: Movin
         <i />
       </div>
 
-      <div className="scene-evaporation" style={{ left: `${Math.max(8, absorption * 0.55)}%` }} aria-hidden="true">
+      <div className="scene-evaporation" style={{ left: `${Math.max(8, handled * 0.55)}%` }} aria-hidden="true">
         <i />
         <span>Below the cost of external exchange</span>
       </div>
@@ -81,11 +82,11 @@ export function MovingLineScene({ snapshot, baselineRevenue, phaseIndex }: Movin
           <i style={{ width: nodeSize(snapshot.clientValue), height: nodeSize(snapshot.clientValue) }} />
           <span>Clients<strong>{money.format(snapshot.clientValue)}</strong></span>
         </div>
-        <div className="scene-capture__node scene-capture__node--entrant" style={{ opacity: captureOpacity }}>
+        <div className="scene-capture__node scene-capture__node--entrant" style={{ opacity: entrantOpacity }}>
           <i style={{ width: nodeSize(snapshot.entrantValue), height: nodeSize(snapshot.entrantValue) }} />
           <span>AI-native entrants<strong>{money.format(snapshot.entrantValue)}</strong></span>
         </div>
-        <div className="scene-capture__node scene-capture__node--identity" style={{ opacity: captureOpacity }}>
+        <div className="scene-capture__node scene-capture__node--identity" style={{ opacity: identityOpacity }}>
           <i style={{ width: nodeSize(snapshot.newIdentityValue), height: nodeSize(snapshot.newIdentityValue) }} />
           <span>New identity<strong>{money.format(snapshot.newIdentityValue)}</strong></span>
         </div>
